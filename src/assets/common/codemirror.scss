@@ -1,0 +1,17 @@
+.CodeMirror-line {
+  font-size: 1.2em !important;
+  font-weight: 500 !important;
+}
+
+.codemirror-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.codemirror-container > * {
+  margin-top: 1em;
+}
+
+.code-mirror-wrapper {
+  min-width: 30em;
+}
