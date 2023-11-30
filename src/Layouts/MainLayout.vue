@@ -76,30 +76,33 @@
             nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
             aliquid ex ea commodi consequatur?
           </p>
-          <n-popover trigger="hover" class="border-left-red">
-            <template #trigger>
-              <n-button
-                color="#ee4540"
-                class="preview-btn"
-                @click="$router.push({name: 'game'})"
-                >Играть</n-button
-              >
-            </template>
-            <span v-if="userData" class="primary-font-color"> Вперёд! </span>
-            <n-space v-else vertical>
-              <span class="primary-font-color"
-                >Только авторизованные пользователи могут играть</span
-              >
-              <n-button
-                ghost
-                round
-                type="success"
-                @click="onClickLogIn('stories')"
-                >Войти</n-button
-              >
-            </n-space>
-          </n-popover>
+          <n-space justify="end">
+            <n-popover trigger="hover" class="border-left-red">
+              <template #trigger>
+                <n-button
+                  color="#000000"
+                  class="preview-btn"
+                  @click="$router.push({name: 'game'})"
+                  >Играть</n-button
+                >
+              </template>
+              <span v-if="userData" class="primary-font-color"> Вперёд! </span>
+              <n-space v-else vertical>
+                <span class="primary-font-color"
+                  >Только авторизованные пользователи могут играть</span
+                >
+                <n-button
+                  ghost
+                  round
+                  type="success"
+                  @click="onClickLogIn('game')"
+                  >Войти</n-button
+                >
+              </n-space>
+            </n-popover>
+          </n-space>
         </div>
+
         <div class="main-preview"></div>
       </div>
       <router-view> </router-view>
@@ -309,9 +312,6 @@ export default defineComponent( {
       else{
         this.redirectAfterLogIn = 'profile';
       }
-
-
-
     },
 
     onClickCancelLogIn() {
@@ -330,7 +330,14 @@ export default defineComponent( {
         const parsedToken = extractJWT(response.data.token)
         this.message.success(`Привет, ${parsedToken.sub}`)
         this.onClickCancelLogIn()
-        this.$router.push("profile")
+        if(this.redirectAfterLogIn.length>0){
+          this.$router.push(this.redirectAfterLogIn)
+          this.redirectAfterLogIn = ""
+        }
+        else{
+          this.$router.push("profile")
+        }
+
 
 
         this.timerForUpdateAccessToken = setInterval(() => {
@@ -388,6 +395,7 @@ export default defineComponent( {
       this.render.main = true;
       this.$store.commit("auth/REMOVE_USER");
       this.$router.push({name: "home"});
+      TokenService.removeToken()
       clearInterval(this.timerForUpdateAccessToken);
       this.render.main = false;
     }
