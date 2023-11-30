@@ -81,7 +81,7 @@
               <n-button
                 color="#ee4540"
                 class="preview-btn"
-                @click="$router.push({name: 'stories'})"
+                @click="$router.push({name: 'game'})"
                 >Играть</n-button
               >
             </template>
