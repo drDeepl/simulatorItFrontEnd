@@ -75,6 +75,7 @@ import {NAvatar} from 'naive-ui';
 import UserStats from '@/models/model.user.stats';
 import {logR, extractJWT} from '@/services/utils';
 import TokenService from '@/services/token.service';
+import ProfessionService from '@/services/profession.service';
 
 import {API_URL} from '@/api/main';
 
@@ -143,9 +144,6 @@ export default defineComponent({
   },
 
   computed: {
-    accessToken() {
-      return 'Bearer ' + this.$store.state.auth.tokenUser.accessToken;
-    },
     tokenUser() {
       return this.$store.state.auth.tokenUser;
     },
@@ -156,6 +154,7 @@ export default defineComponent({
     this.render.main = true;
     const tokenObject = TokenService.getToken();
     this.userData = extractJWT(tokenObject.token);
+    console.warn(await ProfessionService.getProfessions());
 
     this.render.main = false;
   },

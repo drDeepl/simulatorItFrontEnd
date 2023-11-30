@@ -5,6 +5,14 @@
   object-fit: cover;
 }
 
+.preview-img {
+  object-fit: cover;
+  // margin-left: 2em;
+  width: 45em;
+  border: 1px solid white;
+  border-radius: 17px;
+}
+
 .img-carousel-item {
   display: flex;
   justify-content: center;

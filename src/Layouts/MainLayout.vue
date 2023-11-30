@@ -76,34 +76,36 @@
             nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
             aliquid ex ea commodi consequatur?
           </p>
-          <n-space justify="end">
-            <n-popover trigger="hover" class="border-left-red">
-              <template #trigger>
-                <n-button
-                  color="#000000"
-                  class="preview-btn"
-                  @click="$router.push({name: 'game'})"
-                  >Играть</n-button
-                >
-              </template>
-              <span v-if="userData" class="primary-font-color"> Вперёд! </span>
-              <n-space v-else vertical>
-                <span class="primary-font-color"
-                  >Только авторизованные пользователи могут играть</span
-                >
-                <n-button
-                  ghost
-                  round
-                  type="success"
-                  @click="onClickLogIn('game')"
-                  >Войти</n-button
-                >
-              </n-space>
-            </n-popover>
-          </n-space>
+          <n-space justify="end"> </n-space>
         </div>
 
-        <div class="main-preview"></div>
+        <div class="main-preview">
+          <img
+            class="preview-img"
+            :src="require('../assets/img/preview_img.png')"
+          />
+          <n-popover trigger="hover" class="border-left-red">
+            <template #trigger>
+              <n-button
+                color="#000000"
+                class="preview-btn"
+                :disabled="userData ? true : false"
+                @click="$router.push({name: 'game'})"
+                >Играть</n-button
+              >
+            </template>
+            <span v-if="userData" class="primary-font-color"> Вперёд! </span>
+            <n-space v-else vertical>
+              <span class="primary-font-color"
+                >Только авторизованные пользователи могут играть
+              </span>
+
+              <n-button ghost round type="success" @click="onClickLogIn('game')"
+                >Войти</n-button
+              >
+            </n-space>
+          </n-popover>
+        </div>
       </div>
       <router-view> </router-view>
       <n-modal

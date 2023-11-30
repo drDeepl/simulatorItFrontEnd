@@ -1,8 +1,11 @@
 .main-preview {
-  min-width: 10em;
-  min-height: 35em;
-  // background-image: url('img/main_preview.png');
+  width: 40em;
+  height: 35em;
+  // background-image: url('img/preview_img.png');
   background-repeat: no-repeat;
+  display: flex;
+  justify-content: start;
+  margin: 3em;
 }
 
 .main-preview-layout {
@@ -10,7 +13,7 @@
   background-color: $color-crema;
   padding-left: 5em;
   display: grid;
-  grid-template-columns: 4fr 3fr;
+  grid-template-columns: 2fr 3fr;
   // grid-template-columns: 50em 40em;
   justify-content: center;
   align-items: center;
