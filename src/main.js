@@ -1,64 +1,64 @@
+import router from '@/router/index';
+import store from '@/store';
 import {createApp} from 'vue';
 import App from './App.vue';
-import store from '@/store';
-import router from '@/router/index';
 
 import {
-  Dismiss28Regular,
-  AddSquareMultiple16Filled,
   Add16Filled,
-  PlayCircle16Regular,
-  Edit16Regular,
+  AddSquareMultiple16Filled,
   Delete16Regular,
-  MoreCircle20Regular,
-  IosArrowLtr24Regular,
-  Triangle48Regular,
+  Dismiss28Regular,
+  Edit16Regular,
   Info16Regular,
+  IosArrowLtr24Regular,
+  MoreCircle20Regular,
+  PlayCircle48Regular,
+  Triangle48Regular,
 } from '@vicons/fluent';
 import './assets/main.scss';
 
+import CodeBlock from '@/UI/CodeBlock.vue';
 import FormDialog from '@/components/FormDialog.vue';
 import {
-  NPopconfirm,
-  NSpin,
-  NButton,
-  NSpace,
-  NModal,
-  NCard,
-  NProgress,
-  NDataTable,
-  NTable,
-  NInput,
-  NDrawer,
-  NDrawerContent,
-  NLayoutSider,
-  NLayout,
-  NLayoutHeader,
-  NIcon,
-  NLayoutContent,
-  NPopover,
-  NRate,
-  NDialog,
   NAlert,
-  NDescriptions,
-  NDescriptionsItem,
+  NBackTop,
+  NButton,
+  NCard,
   NCarousel,
   NCarouselItem,
-  NImage,
-  NUpload,
-  NScrollbar,
-  NEmpty,
-  NResult,
-  NPagination,
-  NSkeleton,
-  NTooltip,
   NCollapseTransition,
+  NDataTable,
+  NDescriptions,
+  NDescriptionsItem,
+  NDialog,
+  NDrawer,
+  NDrawerContent,
+  NEmpty,
   NFormItem,
-  NSelect,
-  NBackTop,
+  NIcon,
+  NImage,
+  NInput,
+  NLayout,
+  NLayoutContent,
+  NLayoutHeader,
+  NLayoutSider,
   NMessageProvider,
+  NModal,
+  NPagination,
+  NPopconfirm,
+  NPopover,
+  NProgress,
+  NRate,
+  NResult,
+  NScrollbar,
+  NSelect,
+  NSkeleton,
+  NSpace,
+  NSpin,
+  NTable,
+  NTooltip,
+  NUpload,
 } from 'naive-ui';
-import CodeBlock from '@/UI/CodeBlock.vue';
 const app = createApp(App);
 
 app.component('n-message-provider', NMessageProvider);
@@ -108,7 +108,8 @@ app.component('icon-info', Info16Regular);
 app.component('icon-close', Dismiss28Regular);
 app.component('icon-add', AddSquareMultiple16Filled);
 app.component('icon-add-plus', Add16Filled);
-app.component('icon-play', PlayCircle16Regular);
+app.component('icon-play', PlayCircle48Regular);
+
 app.component('n-space', NSpace);
 app.component('n-button', NButton);
 

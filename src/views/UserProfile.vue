@@ -10,8 +10,8 @@
         :collapsed="collapsed"
         :collapsed-width="collapsed ? '.5em' : '6em'"
         show-trigger
-        @collapse="collapsed = true"
         @expand="collapsed = false"
+        :on-update:collapsed="onUpdateCollapsed"
       >
         <n-card v-if="!collapsed">
           <template #header>
@@ -31,61 +31,61 @@
               </div>
             </n-space>
           </template>
-          <span class="font-bold">Пройдено</span>
-          <n-progress
-            class="user-progress-container"
-            type="line"
-            :percentage="sidebar.userInfo.progress"
-          ></n-progress>
-
           <div
-            class="profile-sidebar-link"
-            v-for="row in sidebar.rows"
-            :key="row.id"
-            @click="onClickToLink(row.url)"
-            @mouseover="onTextHover[row.url] = true"
-            @mouseleave="onTextHover[row.url] = false"
+            class="progress-container"
+            v-for="profession in arrays.professions"
+            :key="profession"
           >
-            <span class="profile-sidebar-row-border"></span>
-            <span
-              :class="`profile-sidebar-row-text ${
-                onTextHover[row.url] ? 'font-red' : ''
-              }`"
+            <span class="font-bold">{{ profession }}</span>
+            <n-progress
+              class="user-progress-container"
+              type="line"
+              :percentage="sidebar.userInfo.progress"
             >
-              {{ row.title }}
-            </span>
+            </n-progress>
           </div>
         </n-card>
       </n-layout-sider>
       <n-layout>
-        <n-layout-header class="img-header-profile container-header-profile">
-        </n-layout-header>
+        <n-layout-header> </n-layout-header>
 
         <n-layout-content class="user-profile-content-container">
+          <n-spin
+            :show="!content.isPlayGame"
+            :rotate="false"
+            @click="onClickGame"
+          >
+            <UnityGame></UnityGame>
+            <template #icon>
+              <icon-play></icon-play>
+            </template>
+          </n-spin>
         </n-layout-content>
       </n-layout>
     </n-layout>
   </div>
 </template>
 
-<script type="text/javascript">
+<script>
 import {defineComponent} from 'vue';
 
-import {NAvatar} from 'naive-ui';
-import UserStats from '@/models/model.user.stats';
-import {logR, extractJWT} from '@/services/utils';
 import TokenService from '@/services/token.service';
-import ProfessionService from '@/services/profession.service';
+import {extractJWT, logR} from '@/services/utils';
+import {NAvatar} from 'naive-ui';
 
 import {API_URL} from '@/api/main';
+
+import UnityGame from '@/views/UnityGame.vue';
 
 export default defineComponent({
   components: {
     'n-avatar': NAvatar,
+    UnityGame,
   },
   data() {
     return {
       API_URL,
+      render: {main: true},
       userData: null,
       onTextHover: {},
       collapsed: false,
@@ -94,52 +94,16 @@ export default defineComponent({
         rows: [],
         userInfo: {progress: 0},
       },
-      render: {main: false},
-      states: {delete: {story: false}},
-      currentStoryId: null,
-      currentStoryHasImg: false,
-      storiesBlock: {
-        render: false,
-        countPage: 1,
-        currentPage: 1,
-        countStoriesPage: 4,
+      content: {
+        isPlayGame: false,
       },
-      storyStats: {
-        render: false,
-        selectedStats: 'Прохождение',
-        selectedStatsStory: [],
-        currentStoryStats: {},
-      },
-      forms: {
-        createStory: {active: false, model: {}},
-        updateStory: {active: false, model: {}, selectedStory: {}},
-        isSuccess: {active: false, message: ''},
-        showStats: {active: false, model: new UserStats()},
-      },
-      // INFO: Блок со статистикой===============
-      statsBlock: {
-        active: false,
-        chart: null,
-        state: {createChart: false, clearChart: false},
-        labels: [],
-        datasets: [
-          {
-            label: 'Распределение баллов по историям',
-            data: [],
-            borderWidth: 1,
-          },
-        ],
-      },
-      // INFO: =================================
+      forms: {},
       arrays: {
         fileList: [],
         stories: [],
         idsImagesStories: [],
       },
-      dicts: {
-        stories: {},
-        stats: {},
-      },
+      dicts: {},
     };
   },
 
@@ -154,7 +118,7 @@ export default defineComponent({
     this.render.main = true;
     const tokenObject = TokenService.getToken();
     this.userData = extractJWT(tokenObject.token);
-    console.warn(await ProfessionService.getProfessions());
+    this.arrays.professions = ['техник', 'системный администратор', 'дизайнер'];
 
     this.render.main = false;
   },
@@ -163,6 +127,19 @@ export default defineComponent({
     clearSuccessForm() {
       this.forms.isSuccess.active = false;
       this.forms.isSuccess.message = '';
+    },
+    onClickGame() {
+      logR('wran', 'onClickGame');
+      this.collapsed = true;
+      this.content.isPlayGame = true;
+    },
+    onUpdateCollapsed(isCollapsed) {
+      logR('warn', 'onUpdateCollapsed');
+      console.log(isCollapsed);
+      if (!isCollapsed) {
+        this.content.isPlayGame = false;
+      }
+      this.collapsed = isCollapsed;
     },
   },
 });

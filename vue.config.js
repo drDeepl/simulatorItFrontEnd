@@ -4,15 +4,16 @@ const {defineConfig} = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
-    proxy: {
-      '^/api': {
-        target: 'http://194.67.121.7:8081',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '',
-        },
-      },
-    },
+    proxy: 'http://94.241.169.172:8081',
+    // {
+    //     '^/api': {
+    //       target: 'http://localhost:8081', // 194.67.121.7
+    //       changeOrigin: true,
+    //       pathRewrite: {
+    //         '^/api': '',
+    //       },
+    //     },
+    //   },
   },
   configureWebpack: {
     plugins: [new NodePolyfillPlugin()],

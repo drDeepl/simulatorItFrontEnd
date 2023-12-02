@@ -164,24 +164,24 @@
 </template>
 
 <script lang="js">
-import { defineComponent} from "vue";
-import {mapGetters} from "vuex";
+import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
 
-import {NAvatar} from 'naive-ui'
-import NavbarVertical from "@/components/NavbarVertical.vue"
+import NavbarVertical from "@/components/NavbarVertical.vue";
+import { NAvatar } from 'naive-ui';
 
-import {logR, extractJWT} from '@/services/utils';
+import { extractJWT, logR } from '@/services/utils';
 
-import UserService from "@/services/user.service";
 import AuthService from "@/services/auth.service";
 import TokenService from "@/services/token.service";
+import UserService from "@/services/user.service";
 
 import UserLogin from "@/models/model.user.login";
-import UserRegister from "@/models/model.user.register"
+import UserRegister from "@/models/model.user.register";
 
-import {urlApi} from "@/_config"
+import { urlApi } from "@/_config";
 
-import { useMessage } from 'naive-ui'
+import { useMessage } from 'naive-ui';
 
 
 export default defineComponent( {
@@ -196,7 +196,7 @@ export default defineComponent( {
       const currentDate = Date.now();
       // INFO: default userData.exp in seconds, after * 1000 will milliseconds
       console.log("USERS TOKEN", tokenUser);
-      const userData = extractJWT(tokenUser.accessToken);
+      const userData = extractJWT(tokenUser.token);
       const userExp = userData.exp *1000
       const differenceTime = userExp - currentDate
       let intervalForUpdateToken = differenceTime;
@@ -296,8 +296,7 @@ export default defineComponent( {
 
     },
       onClickToProfile(){
-        const role = this.userData.role
-        this.$router.push({name: this.role[role]})
+        this.$router.push("profile")
       },
       onClickAvatar() {
       logR('warn', 'NAVBAR: onClickAvatar');

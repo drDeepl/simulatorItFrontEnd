@@ -1,5 +1,5 @@
-import axios from 'axios';
 import TokenService from '@/services/token.service';
+import axios from 'axios';
 // import {extractJWT} from '@/services/utils';
 
 export const API_URL = 'http://94.241.169.172:8081/api/';
@@ -11,7 +11,7 @@ console.log(token);
 const accessToken = token ? `${token.type} ${token.token}` : null;
 const instance = axios.create({
   baseURL: API_URL,
-  headers: {Authorization: accessToken},
+  headers: {Authorization: accessToken, 'Access-Control-Allow-Origin': '*'},
 });
 
 // instance.interceptors.request.use(async function (config) {
