@@ -8,9 +8,24 @@
 .preview-img {
   object-fit: cover;
   // margin-left: 2em;
-  width: 45em;
+  max-width: 50vw !important;
   border: 1px solid white;
   border-radius: 17px;
+  background-color: $color-white;
+  padding: 1em;
+  border: 2px solid $color-soft-black;
+  position: relative;
+}
+
+.preview-img:after {
+  content: '';
+  position: absolute;
+  background-color: $color-soft-black;
+  top: 19px;
+  left: 8px;
+  right: -8px;
+  bottom: 8px;
+  border-radius: $border-radius;
 }
 
 .img-carousel-item {

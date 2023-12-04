@@ -1,3 +1,13 @@
+.nav-container {
+  display: grid !important;
+  grid-template-columns: 1fr 3fr 1fr;
+  align-items: center;
+}
+
+.main-container {
+  // background-color: $color-soft-black;
+}
+
 .game-container {
   width: 100%;
   min-height: 90vh;
@@ -23,13 +33,6 @@
 }
 
 .container-empty {
-  // // width: 100%;
-  // position: absolute;
-  // left: 30vw;
-  // // right: 50%;
-  // top: 39%;
-  // display: flex;
-  // flex-direction: column;
   display: flex;
   flex-direction: column;
   justify-content: center !important;

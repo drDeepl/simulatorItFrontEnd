@@ -1,14 +1,27 @@
 <template>
-  <div>
+  <div class="main-container">
     <n-navbar>
-      <n-space justify="space-between" align="center">
+      <div class="nav-container">
+        <div class="nav-block-container btn-home">
+          <n-button class="nav-bar-btn" quaternary round>на главную</n-button>
+        </div>
+        <div class="navbar-menu">
+          <p class="navbar-preview-text">СИМУЛЯТОР IT ПРОФЕССИЙ</p>
+        </div>
+        <div class="nav-block-container">
+          <n-button class="nav-bar-btn" quaternary round>войти</n-button>
+        </div>
+      </div>
+
+      <!-- <n-space justify="space-between" align="center">
         <n-space justify="start">
           <router-link to="/">
             <n-button text>
-              <span style="color: whitesmoke">На главную</span>
+              <span>На главную</span>
             </n-button>
           </router-link>
         </n-space>
+        
         <n-space justify="end">
           <n-popconfirm
             v-if="!userData"
@@ -55,7 +68,7 @@
             </template>
           </n-popconfirm>
         </n-space>
-      </n-space>
+      </n-space> -->
     </n-navbar>
     <div class="main-content">
       <div
@@ -168,7 +181,7 @@ import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 
 import NavbarVertical from "@/components/NavbarVertical.vue";
-import { NAvatar } from 'naive-ui';
+// import { NAvatar } from 'naive-ui';
 
 import { extractJWT, logR } from '@/services/utils';
 
@@ -185,7 +198,7 @@ import { useMessage } from 'naive-ui';
 
 
 export default defineComponent( {
-  components: {"n-avatar": NAvatar, "n-navbar": NavbarVertical},
+  components: { "n-navbar": NavbarVertical},
   async created() {
     logR('warn', "MAINLAYOUT: created");
     logR('warn', urlApi)

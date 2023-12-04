@@ -1,11 +1,64 @@
 .navbar__layout {
-  background-color: $color-grey !important;
-  border-radius: $border-radius;
   width: 100%;
-  margin-top: -0.95em;
+  height: 4em;
+
+  border-radius: $border-radius !important;
+  // margin-top: -0.95em;
+  margin-bottom: 1em;
 }
 
-.navbar-content {
+.navbar-preview-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.navbar-menu {
+  justify-content: center;
+  min-height: 100%;
+  border: 2px solid $color-soft-black;
+  background-color: $color-crema;
+}
+
+.navbar-menu:after {
+  content: '';
+  position: absolute;
+  background-color: $color-soft-black;
+  top: 0px;
+  left: 8px;
+  right: -22px;
+  bottom: -11px;
+  border-radius: $border-radius;
+  z-index: -1;
+}
+
+.nav-bar-btn {
+  background-color: white !important;
+  border: 2px solid black;
+}
+
+.nav-block-container {
+  min-height: 100% !important;
+  padding: 1em;
+  display: flex;
+  align-items: center !important;
+  justify-content: end !important;
+  background-color: $color-crema;
+}
+
+.nav-block-container.btn-home {
+  display: flex;
+  justify-content: start !important;
+}
+
+.nav-bar-btn:hover {
+  background-color: black !important;
+  border: 2px solid white;
+  color: white !important;
+  font-weight: 600;
+}
+
+.n .navbar-content {
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-around;
