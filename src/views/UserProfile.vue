@@ -77,6 +77,8 @@ import {API_URL} from '@/api/main';
 
 import UnityGame from '@/views/UnityGame.vue';
 
+import ProfessionService from '@/services/profession.service';
+
 export default defineComponent({
   components: {
     'n-avatar': NAvatar,
@@ -133,13 +135,15 @@ export default defineComponent({
       this.collapsed = true;
       this.content.isPlayGame = true;
     },
-    onUpdateCollapsed(isCollapsed) {
+    async onUpdateCollapsed(isCollapsed) {
       logR('warn', 'onUpdateCollapsed');
       console.log(isCollapsed);
       if (!isCollapsed) {
         this.content.isPlayGame = false;
       }
       this.collapsed = isCollapsed;
+      const response = await ProfessionService.getProfessions();
+      console.log(response);
     },
   },
 });

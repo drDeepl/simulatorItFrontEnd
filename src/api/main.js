@@ -4,14 +4,23 @@ import axios from 'axios';
 
 export const API_URL = 'http://94.241.169.172:8081/api/';
 
+// export const API_URL = 'http://localhost:8081/api/';
+
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-const token = TokenService.getToken();
-console.log('TOKEN');
-console.log(token);
-const accessToken = token ? `${token.type} ${token.token}` : null;
+
 const instance = axios.create({
   baseURL: API_URL,
-  headers: {Authorization: accessToken, 'Access-Control-Allow-Origin': '*'},
+  headers: {'Access-Control-Allow-Origin': '*'},
+});
+
+instance.interceptors.request.use(function (config) {
+  const token = TokenService.getToken();
+  if (token) {
+    console.log('TOKEN EXISTS');
+    console.log(token);
+    config.headers.Authorization = `${token.type} ${token.token}`;
+  }
+  return config;
 });
 
 // instance.interceptors.request.use(async function (config) {

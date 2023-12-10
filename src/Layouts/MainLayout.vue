@@ -8,8 +8,10 @@
         <div class="navbar-menu">
           <p class="navbar-preview-text">СИМУЛЯТОР IT ПРОФЕССИЙ</p>
         </div>
-        <div class="nav-block-container">
-          <n-button class="nav-bar-btn" quaternary round>войти</n-button>
+        <div class="nav-block-container" @click="onClickLogIn">
+          <button class="nb-button blue rounded" @click="onClickLogIn">
+            войти
+          </button>
         </div>
       </div>
 

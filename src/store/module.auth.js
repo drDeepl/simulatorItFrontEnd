@@ -19,7 +19,7 @@ export const auth = {
         const responseData = response.data;
         logR('log', 'MODULE.AUTH: responseData\n', responseData);
         context.commit('SET_TOKEN_USER', responseData);
-        console.log(responseData);
+
         const userData = extractJWT(responseData.token);
         logR('log', 'MODULE.AUTH: token\n', userData);
         context.commit('SET_DATA_LOGIN', userData);
