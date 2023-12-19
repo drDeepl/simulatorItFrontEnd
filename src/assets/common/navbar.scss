@@ -20,17 +20,17 @@
   background-color: $color-crema;
 }
 
-.navbar-menu:after {
-  content: '';
-  position: absolute;
-  background-color: $color-soft-black;
-  top: 0px;
-  left: 8px;
-  right: -22px;
-  bottom: -11px;
-  border-radius: $border-radius;
-  z-index: -1;
-}
+// .navbar-menu:after {
+//   content: '';
+//   position: absolute;
+//   background-color: $color-soft-black;
+//   top: 0px;
+//   left: 8px;
+//   right: -22px;
+//   bottom: -11px;
+//   border-radius: $border-radius;
+//   z-index: -1;
+// }
 
 .nav-bar-btn {
   background-color: white !important;

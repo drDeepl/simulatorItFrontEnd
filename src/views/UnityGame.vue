@@ -6,7 +6,7 @@
       v-else
       class="game-container"
       frameborder="0"
-      src="https://itch.io/embed-upload/9207932?color=333333"
+      src="https://itch.io/embed-upload/9343325?color=333333"
       allowfullscreen
     >
       <!-- <a href="https://khpi.itch.io/test">Play test on itch.io</a> -->

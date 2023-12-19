@@ -19,7 +19,7 @@
   position: absolute;
   background-color: $color-soft-black;
   top: 0.5em;
-  left: 8px;
+  left: 1em;
   right: -8.7em;
   bottom: -0.7em;
   border-radius: $border-radius;
@@ -60,16 +60,16 @@
 .preview-description {
   position: relative;
 }
-.preview-description:after {
-  content: '';
-  position: absolute;
-  background-color: $color-soft-black;
-  top: 1.5em;
-  left: 8px;
-  right: -0.6em;
-  bottom: 0.8em;
-  border-radius: $border-radius;
-}
+// .preview-description:after {
+//   content: '';
+//   position: absolute;
+//   background-color: $color-soft-black;
+//   top: 1.5em;
+//   left: 8px;
+//   right: -0.6em;
+//   bottom: 0.8em;
+//   border-radius: $border-radius;
+// }
 
 .preview-btn {
   max-width: 8em;

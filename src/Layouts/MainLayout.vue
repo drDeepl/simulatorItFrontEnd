@@ -2,75 +2,30 @@
   <div class="main-container">
     <n-navbar>
       <div class="nav-container">
-        <div class="nav-block-container btn-home">
-          <n-button class="nav-bar-btn" quaternary round>на главную</n-button>
-        </div>
+        <div class="nav-block-container btn-home"></div>
         <div class="navbar-menu">
           <p class="navbar-preview-text">СИМУЛЯТОР IT ПРОФЕССИЙ</p>
         </div>
         <div class="nav-block-container" @click="onClickLogIn">
-          <button class="nb-button blue rounded" @click="onClickLogIn">
-            войти
-          </button>
+          <n-space justify="space-between">
+            <n-button
+              class="nav-bar-btn"
+              quaternary
+              round
+              @click="onClickToHomePage"
+              >на главную</n-button
+            >
+            <n-button
+              class="nav-bar-btn"
+              quaternary
+              round
+              @click="onClickLogIn"
+            >
+              войти
+            </n-button>
+          </n-space>
         </div>
       </div>
-
-      <!-- <n-space justify="space-between" align="center">
-        <n-space justify="start">
-          <router-link to="/">
-            <n-button text>
-              <span>На главную</span>
-            </n-button>
-          </router-link>
-        </n-space>
-        
-        <n-space justify="end">
-          <n-popconfirm
-            v-if="!userData"
-            class="navbar-popconfirm"
-            :show-icon="false"
-            positive-text="Вход"
-            :on-positive-click="onClickLogIn"
-            negative-text="Регистрация"
-            :on-negative-click="onClickRegister"
-          >
-            <template #trigger>
-              <n-avatar
-                @click="onClickAvatar"
-                class="user__avatar"
-                size="large"
-                round
-                :style="{backgroundColor: '#ee4540'}"
-              >
-                <span>?</span>
-              </n-avatar>
-            </template>
-          </n-popconfirm>
-          <n-popconfirm
-            v-else
-            class="navbar-popconfirm"
-            :show-icon="false"
-            positive-text="Личный кабинет"
-            :on-positive-click="onClickToProfile"
-            negative-text="Выйти"
-            :on-negative-click="onClickToExitProfile"
-          >
-            <template #trigger>
-              <n-avatar
-                @click="onClickAvatar"
-                class="user__avatar"
-                size="large"
-                round
-                :style="{backgroundColor: '#ee4540'}"
-              >
-                <span>
-                  {{ userData ? userData.sub.slice(0, 2) : '' }}
-                </span>
-              </n-avatar>
-            </template>
-          </n-popconfirm>
-        </n-space>
-      </n-space> -->
     </n-navbar>
     <div class="main-content">
       <div
@@ -105,17 +60,21 @@
                 color="#000000"
                 class="preview-btn"
                 :disabled="userData ? true : false"
-                @click="$router.push({name: 'game'})"
+                @click="$router.push({name: 'profile'})"
                 >Играть</n-button
               >
             </template>
-            <span v-if="userData" class="primary-font-color"> Вперёд! </span>
+            <span v-if="!userData" class="primary-font-color"> Вперёд! </span>
             <n-space v-else vertical>
               <span class="primary-font-color"
                 >Только авторизованные пользователи могут играть
               </span>
 
-              <n-button ghost round type="success" @click="onClickLogIn('game')"
+              <n-button
+                ghost
+                round
+                type="success"
+                @click="onClickLogIn('profile')"
                 >Войти</n-button
               >
             </n-space>
@@ -205,7 +164,7 @@ export default defineComponent( {
     logR('warn', "MAINLAYOUT: created");
     logR('warn', urlApi)
     this.render.main = true;
-    let tokenUser = this.$store.state.auth.tokenUser
+    let tokenUser = TokenService.getToken()
     console.log("TOKEN USER: ", tokenUser)
     if(tokenUser){
       const currentDate = Date.now();
@@ -414,6 +373,11 @@ export default defineComponent( {
       TokenService.removeToken()
       clearInterval(this.timerForUpdateAccessToken);
       this.render.main = false;
+    },
+    onClickToHomePage(){
+      logR("warn", "MainLayout: onClickToHomePage")
+      this.$router.push({"name": "home"})
+      this.$router.go(0)
     }
 
   },

@@ -17,17 +17,6 @@
   position: relative;
 }
 
-.preview-img:after {
-  content: '';
-  position: absolute;
-  background-color: $color-soft-black;
-  top: 19px;
-  left: 8px;
-  right: -8px;
-  bottom: 8px;
-  border-radius: $border-radius;
-}
-
 .img-carousel-item {
   display: flex;
   justify-content: center;
