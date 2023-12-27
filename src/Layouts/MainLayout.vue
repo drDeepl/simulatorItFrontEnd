@@ -102,8 +102,11 @@
               <n-button
                 color="#000000"
                 class="preview-btn"
-                :disabled="!userIsLogIn"
-                @click="$router.push({name: 'profile'})"
+                @click="
+                  userIsLogIn
+                    ? $router.push({name: 'profile'})
+                    : $router.push({name: 'home'})
+                "
                 >Играть</n-button
               >
             </template>
