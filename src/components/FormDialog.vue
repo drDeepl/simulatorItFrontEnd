@@ -166,6 +166,9 @@ export default defineComponent({
 
       if (!isValid) {
         await props.applyFunction(formValue.values);
+        for (let value in formValue.values) {
+          formValue.values[value] = null;
+        }
       }
 
       status.running = false;

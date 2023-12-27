@@ -6,8 +6,8 @@
         <div class="navbar-menu">
           <p class="navbar-preview-text">СИМУЛЯТОР IT ПРОФЕССИЙ</p>
         </div>
-        <div class="nav-block-container" @click="onClickLogIn">
-          <n-space justify="space-between">
+        <div class="nav-block-container">
+          <n-space justify="space-around">
             <n-button
               class="nav-bar-btn"
               quaternary
@@ -15,15 +15,58 @@
               @click="onClickToHomePage"
               >на главную</n-button
             >
+            <n-space v-if="userIsLogIn" justify="space-around">
+              <n-button
+                class="nav-bar-btn"
+                circle
+                quaternary
+                @click="$router.push('/profile')"
+              >
+                <n-icon size="24"><icon-avatar /></n-icon>
+              </n-button>
+
+              <n-button
+                class="nav-bar-btn"
+                circle
+                quaternary
+                @click="onClickToExitProfile"
+              >
+                <n-icon size="24"><icon-exit /></n-icon>
+              </n-button>
+            </n-space>
+
             <n-button
+              v-else
               class="nav-bar-btn"
               quaternary
               round
-              @click="onClickLogIn"
-            >
-              войти
+              @click="isMenuActive = true"
+              >вход
             </n-button>
           </n-space>
+
+          <n-drawer v-model:show="isMenuActive">
+            <n-drawer-content>
+              <n-space justify="space-between">
+                <n-button
+                  class="nav-bar-btn"
+                  quaternary
+                  round
+                  @click="onClickLogIn"
+                >
+                  войти
+                </n-button>
+                <n-button
+                  class="nav-bar-btn"
+                  quaternary
+                  round
+                  @click="onClickRegister"
+                >
+                  зарегистрироваться
+                </n-button>
+              </n-space>
+            </n-drawer-content>
+          </n-drawer>
         </div>
       </div>
     </n-navbar>
@@ -59,12 +102,12 @@
               <n-button
                 color="#000000"
                 class="preview-btn"
-                :disabled="userData ? true : false"
+                :disabled="!userIsLogIn"
                 @click="$router.push({name: 'profile'})"
                 >Играть</n-button
               >
             </template>
-            <span v-if="!userData" class="primary-font-color"> Вперёд! </span>
+            <span v-if="userIsLogIn" class="primary-font-color"> Вперёд! </span>
             <n-space v-else vertical>
               <span class="primary-font-color"
                 >Только авторизованные пользователи могут играть
@@ -104,9 +147,6 @@
       </n-modal>
     </div>
 
-    <!-- // NOTE: блок с всплывающими оповещениями -->
-
-    <!-- // NOTE: блок с формами -->
     <c-form
       v-if="forms.logIn.active"
       :isActive="forms.logIn.active"
@@ -144,9 +184,8 @@ import { mapGetters } from "vuex";
 import NavbarVertical from "@/components/NavbarVertical.vue";
 // import { NAvatar } from 'naive-ui';
 
-import { extractJWT, logR } from '@/services/utils';
+import { extractJWT, logR, isValidExpireTimeFromJWT } from '@/services/utils';
 
-import AuthService from "@/services/auth.service";
 import TokenService from "@/services/token.service";
 import UserService from "@/services/user.service";
 
@@ -167,39 +206,24 @@ export default defineComponent( {
     let tokenUser = TokenService.getToken()
     console.log("TOKEN USER: ", tokenUser)
     if(tokenUser){
-      const currentDate = Date.now();
-      // INFO: default userData.exp in seconds, after * 1000 will milliseconds
       console.log("USERS TOKEN", tokenUser);
       const userData = extractJWT(tokenUser.token);
-      const userExp = userData.exp *1000
-      const differenceTime = userExp - currentDate
-      let intervalForUpdateToken = differenceTime;
-      console.log(`Difference time${differenceTime}`)
-      if((userExp - currentDate) < 0){
-        const refreshToken = extractJWT(tokenUser.refreshToken);
-        const refreshTokenExp = refreshToken.exp * 1000;
-        const differenceTimeRefresh = refreshTokenExp - currentDate;
-        if(differenceTimeRefresh < 0){
-          console.log('REFRESH MORE CURRUNT DATE');
-          this.$store.commit('auth/REMOVE_TOKEN');
-        }
-        else{
-          const accessToken = await AuthService.updateAccessToken();
-          const userDataFromAccess = extractJWT(accessToken);
-          const lifeTimeToken = userDataFromAccess.exp * 1000;
-          console.log(tokenUser.accessToken);
-          this.$store.commit('auth/SET_DATA_LOGIN', userDataFromAccess)
-          intervalForUpdateToken = lifeTimeToken - Date.now() - 10000;
-          console.error("Access update through: ", intervalForUpdateToken);
-        }
-
-          this.timerForUpdateAccessToken = setInterval(() => {
-          AuthService.updateAccessToken();
-          this.$store.commit("auth/UPDATE_ACCESS_TOKEN");
-
-        }, intervalForUpdateToken);
+      // const expTime = userData.exp*1000;
+      // const currentDateTime = new Date();
+      // const differenceTime = expTime - currentDateTime;
+      // console.log(`DIFFERENCE TIME: ${differenceTime}`)
+      const accessTokenIsValid = isValidExpireTimeFromJWT(userData)
+      if(accessTokenIsValid){
+        this.userIsLogIn = true;
+        this.userData = userData;
 
       }
+      else{
+        TokenService.removeUser();
+        TokenService.removeToken();
+
+      }
+
 
     }
     console.log("END CREATED")
@@ -210,13 +234,10 @@ export default defineComponent( {
   data(){
 
     return{
+      userData: {},
       message: useMessage(),
-      // NOTE: На время теста ===================
-      timerForUpdateAccessToken: null,
-      isDevelop: false,
-      todos: false,
-      role: {"ROLE_ADMIN": 'admin', "ROLE_USER": 'user'},
-      // NOTE: На время теста ===================
+      isMenuActive: false,
+      userIsLogIn:false,
       redirectAfterLogIn: '',
       render: {main: false},
       menubar: {},
@@ -252,9 +273,6 @@ export default defineComponent( {
     }),
     accessToken(){
       return this.$store.state.auth.tokenUser ? this.$store.state.auth.tokenUser.accessToken : null
-    },
-    userData(){
-      return this.$store.state.auth.tokenData ? this.$store.state.auth.tokenData : null
     },
 
   },
@@ -295,16 +313,12 @@ export default defineComponent( {
     },
     async onClickApplyLogIn(dataForm) {
       logR('warn', 'NAVBAR: onClickApplyLogIn\n');
-
       const response = await this.$store.dispatch("auth/login", dataForm);
-
       if(response.status==200){
-        const exp = this.userData.exp * 1000 // to milliseconds
-        const differenceBetweenTimestamp = exp - Date.now() - 10000;
-        const intervalForUpdateToken =  Math.abs(differenceBetweenTimestamp);
         const parsedToken = extractJWT(response.data.token)
         this.message.success(`Привет, ${parsedToken.sub}`)
-        this.onClickCancelLogIn()
+        this.userIsLogIn = true;
+
         if(this.redirectAfterLogIn.length>0){
           this.$router.push(this.redirectAfterLogIn)
           this.redirectAfterLogIn = ""
@@ -312,20 +326,13 @@ export default defineComponent( {
         else{
           this.$router.push("profile")
         }
-
-
-
-        this.timerForUpdateAccessToken = setInterval(() => {
-          AuthService.updateAccessToken();
-          this.$store.commit("auth/UPDATE_ACCESS_TOKEN");
-        }, intervalForUpdateToken);
-
+        this.setMenuActive(false)
+        this.onClickCancelLogIn()
       }
-
       else{
-        this.$store.commit("notification/SET_ACTIVE_ERROR", response.message);
+        const msg = response.status == 401 ? "Неправильный логин или пароль" : "что-то пошло не так"
+        this.$store.commit("notification/SET_ACTIVE_ERROR", msg);
       }
-
       // this.onClickCancelLogIn();
       return response;
     },
@@ -349,13 +356,14 @@ export default defineComponent( {
         console.log(response.data)
         await this.onClickApplyLogIn(dataForm)
         this.message.success("Аккаунт успешно зарегистрирован!")
+        this.setMenuActive(false)
+        this.onClickCancelRegister()
 
       }
       else{
         this.$store.commit("notification/SET_ACTIVE_ERROR", response.message);
         console.log(this.alert.error)
       }
-      this.forms.register.active = false;
 
     },
     onClickCancelRegister() {
@@ -365,19 +373,22 @@ export default defineComponent( {
 
     },
 
+    setMenuActive(value){
+      this.isMenuActive = value;
+    },
+
     onClickToExitProfile(){
       logR('warn', 'MainLayout: onClickToExitProfile');
       this.render.main = true;
-      this.$store.commit("auth/REMOVE_USER");
+      TokenService.removeToken();
+      TokenService.removeUser();
+      this.userIsLogIn = false;
       this.$router.push({name: "home"});
-      TokenService.removeToken()
-      clearInterval(this.timerForUpdateAccessToken);
       this.render.main = false;
     },
     onClickToHomePage(){
       logR("warn", "MainLayout: onClickToHomePage")
-      this.$router.push({"name": "home"})
-      this.$router.go(0)
+      this.$router.push({name: "home"});
     }
 
   },

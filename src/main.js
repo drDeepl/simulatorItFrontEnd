@@ -14,6 +14,8 @@ import {
   MoreCircle20Regular,
   PlayCircle48Regular,
   Triangle48Regular,
+  Person32Regular,
+  DoorArrowLeft24Regular,
 } from '@vicons/fluent';
 import './assets/main.scss';
 
@@ -112,6 +114,8 @@ app.component('icon-play', PlayCircle48Regular);
 
 app.component('n-space', NSpace);
 app.component('n-button', NButton);
+app.component('icon-avatar', Person32Regular);
+app.component('icon-exit', DoorArrowLeft24Regular);
 
 app.use(router);
 app.use(store);
