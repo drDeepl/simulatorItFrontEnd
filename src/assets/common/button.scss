@@ -1,15 +1,12 @@
 .preview-btn {
   background-color: #2a8bd8 !important;
-  width: 7em;
+  width: 9em;
   z-index: 999 !important;
   font-weight: 600;
   border-radius: $border-radius;
-
-  // position: fixed;
-  top: 20.3em;
-  right: 20em;
-  :hover {
-  }
+  position: absolute;
+  top: 55%;
+  right: 30%;
 }
 .preview-btn > span {
   color: $color-white;

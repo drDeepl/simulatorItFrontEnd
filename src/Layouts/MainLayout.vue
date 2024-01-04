@@ -92,108 +92,55 @@
           <n-space justify="end"> </n-space>
         </div>
 
-        <div class="main-preview">
+        <div class="preview-container">
           <img
             class="preview-img"
             :src="require('../assets/img/preview_img.png')"
           />
-          <n-popover trigger="hover" class="border-left-red">
-            <template #trigger>
-              <n-button
-                color="#000000"
-                class="preview-btn"
-                @click="
-                  userIsLogIn
-                    ? $router.push({name: 'profile'})
-                    : $router.push({name: 'home'})
-                "
-                >Играть</n-button
-              >
-            </template>
-            <span v-if="userIsLogIn" class="primary-font-color"> Вперёд! </span>
-            <n-space v-else vertical>
-              <span class="primary-font-color"
-                >Только авторизованные пользователи могут играть
-              </span>
 
-              <n-button
-                ghost
-                round
-                type="success"
-                @click="onClickLogIn('profile')"
-                >Войти</n-button
-              >
-            </n-space>
-          </n-popover>
+          <n-button class="preview-btn" @click="onClickToPlayGame"
+            >Играть</n-button
+          >
+
+          <n-modal v-model:show="isPlayGame">
+            <n-card title="Симулятор It">
+              <template #header-extra>
+                <n-button
+                  icon
+                  quaternary
+                  circle
+                  color="red"
+                  text
+                  @click="onClickCloseGame"
+                >
+                  <n-icon size="48">
+                    <icon-close />
+                  </n-icon>
+                </n-button>
+              </template>
+              <UnityGame />
+            </n-card>
+          </n-modal>
         </div>
       </div>
       <router-view> </router-view>
-      <n-modal
-        v-if="errorAlertActive.active"
-        v-model:show="errorAlertActive.active"
-        :title="errorAlertActive.message"
-        :mask-closable="false"
-        preset="dialog"
-        @positive-click="onClickCancelErrorAlert"
-        type="error"
-      >
-      </n-modal>
-      <n-modal
-        v-if="successAlertActive.active"
-        v-model:show="successAlertActive.active"
-        :title="successAlertActive.message"
-        :mask-closable="false"
-        preset="dialog"
-        @positive-click="onClickCancelSuccessAlert"
-        type="success"
-      >
-      </n-modal>
     </div>
-
-    <c-form
-      v-if="forms.logIn.active"
-      :isActive="forms.logIn.active"
-      title="Вход"
-      :itemModel="forms.logIn.model"
-      :toValidate="false"
-      labelApplyButton="Войти"
-      :applyFunction="onClickApplyLogIn"
-      :cancelFunction="onClickCancelLogIn"
-      :isRunSuccess="forms.runSuccess"
-      :loading="forms.running"
-    >
-    </c-form>
-
-    <c-form
-      v-if="forms.register.active"
-      :isActive="forms.register.active"
-      title="Регистрация"
-      :itemModel="forms.register.model"
-      :toValidate="true"
-      :hideProps="{role: true}"
-      labelApplyButton="Зарегистрироваться"
-      :applyFunction="onClickApplyRegister"
-      :cancelFunction="onClickCancelRegister"
-      :loading="forms.running"
-    >
-    </c-form>
   </div>
 </template>
 
 <script lang="js">
 import { defineComponent } from "vue";
-import { mapGetters } from "vuex";
 
 import NavbarVertical from "@/components/NavbarVertical.vue";
 // import { NAvatar } from 'naive-ui';
 
-import { extractJWT, logR, isValidExpireTimeFromJWT } from '@/services/utils';
+import { extractJWT, isValidExpireTimeFromJWT, logR } from '@/services/utils';
 
 import TokenService from "@/services/token.service";
 import UserService from "@/services/user.service";
 
-import UserLogin from "@/models/model.user.login";
 import UserRegister from "@/models/model.user.register";
+import UnityGame from "@/views/UnityGame.vue";
 
 import { urlApi } from "@/_config";
 
@@ -201,7 +148,7 @@ import { useMessage } from 'naive-ui';
 
 
 export default defineComponent( {
-  components: { "n-navbar": NavbarVertical},
+  components: { "n-navbar": NavbarVertical, UnityGame},
   async created() {
     logR('warn', "MAINLAYOUT: created");
     logR('warn', urlApi)
@@ -237,50 +184,24 @@ export default defineComponent( {
   data(){
 
     return{
+      isPlayGame: false,
       userData: {},
       message: useMessage(),
       isMenuActive: false,
       userIsLogIn:false,
       redirectAfterLogIn: '',
       render: {main: false},
-      menubar: {},
-      alert: {
-        success: {active: false, message: ''},
-        info: {active: false, message: ''},
-        error: {active: false, message: ''},
-      },
-      activateBlock: {
-        avatar: false,
-      },
-      forms: {
-        runSuccess: false,
-        running: false,
-        logIn: {
-          active: false,
-          model: UserLogin,
 
-        },
-        register: {
-          active: false,
-          model: null,
-
-        }
-      },
     }
   },
-  computed: {
-    ...mapGetters({
-
-      errorAlertActive: 'notification/GET_STATE_ERROR',
-      successAlertActive: 'notification/GET_STATE_SUCCESS'
-    }),
-    accessToken(){
-      return this.$store.state.auth.tokenUser ? this.$store.state.auth.tokenUser.accessToken : null
-    },
-
-  },
     methods: {
+      onClickToPlayGame(){
+        this.isPlayGame = true;
+      },
 
+      onClickCloseGame(){
+        this.isPlayGame = false
+      },
       onClickCancelErrorAlert() {
       this.alert.error.active = false;
       this.alert.error.message = '';
