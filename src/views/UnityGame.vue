@@ -5,10 +5,10 @@ import {ref} from 'vue';
 
 const isRender = ref(true);
 const unityContext = new UnityWebgl({
-  loaderUrl: 'unity/build/simulator_it_build_dev.loader.js',
-  dataUrl: 'unity/build/simulator_it_build_dev.data',
-  frameworkUrl: 'unity/build/simulator_it_build_dev.framework.js',
-  codeUrl: 'unity/build/simulator_it_build_dev.wasm',
+  loaderUrl: 'unity/build/simulator_it_build.loader.js',
+  dataUrl: 'unity/build/simulator_it_build.data',
+  frameworkUrl: 'unity/build/simulator_it_build.framework.js',
+  codeUrl: 'unity/build/simulator_it_build.wasm',
 });
 
 unityContext.on('device', () => alert('click device ...'));
