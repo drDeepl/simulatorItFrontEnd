@@ -7,15 +7,15 @@
           <p class="navbar-preview-text">СИМУЛЯТОР IT ПРОФЕССИЙ</p>
         </div>
         <div class="nav-block-container">
-          <n-space justify="space-around">
-            <n-button
-              class="nav-bar-btn"
-              quaternary
-              round
-              @click="onClickToHomePage"
-              >на главную</n-button
-            >
-            <n-space v-if="userIsLogIn" justify="space-around">
+          <!-- <n-space justify="space-around"> -->
+          <n-button
+            class="nav-bar-btn"
+            quaternary
+            round
+            @click="onClickToHomePage"
+            >на главную</n-button
+          >
+          <!-- <n-space v-if="userIsLogIn" justify="space-around">
               <n-button
                 class="nav-bar-btn"
                 circle
@@ -42,8 +42,8 @@
               round
               @click="isMenuActive = true"
               >вход
-            </n-button>
-          </n-space>
+            </n-button> -->
+          <!-- </n-space> -->
 
           <n-drawer v-model:show="isMenuActive">
             <n-drawer-content>
@@ -102,7 +102,11 @@
             >Играть</n-button
           >
 
-          <n-modal v-model:show="isPlayGame">
+          <n-modal
+            v-model:show="isPlayGame"
+            v-if="isPlayGame"
+            :mask-closable="false"
+          >
             <n-card title="Симулятор It">
               <template #header-extra>
                 <n-button
@@ -134,7 +138,7 @@ import { defineComponent } from "vue";
 import NavbarVertical from "@/components/NavbarVertical.vue";
 // import { NAvatar } from 'naive-ui';
 
-import { extractJWT, isValidExpireTimeFromJWT, logR } from '@/services/utils';
+import { extractJWT, logR } from '@/services/utils';
 
 import TokenService from "@/services/token.service";
 import UserService from "@/services/user.service";
@@ -142,7 +146,6 @@ import UserService from "@/services/user.service";
 import UserRegister from "@/models/model.user.register";
 import UnityGame from "@/views/UnityGame.vue";
 
-import { urlApi } from "@/_config";
 
 import { useMessage } from 'naive-ui';
 
@@ -151,31 +154,30 @@ export default defineComponent( {
   components: { "n-navbar": NavbarVertical, UnityGame},
   async created() {
     logR('warn', "MAINLAYOUT: created");
-    logR('warn', urlApi)
     this.render.main = true;
     let tokenUser = TokenService.getToken()
     console.log("TOKEN USER: ", tokenUser)
-    if(tokenUser){
-      console.log("USERS TOKEN", tokenUser);
-      const userData = extractJWT(tokenUser.token);
-      // const expTime = userData.exp*1000;
-      // const currentDateTime = new Date();
-      // const differenceTime = expTime - currentDateTime;
-      // console.log(`DIFFERENCE TIME: ${differenceTime}`)
-      const accessTokenIsValid = isValidExpireTimeFromJWT(userData)
-      if(accessTokenIsValid){
-        this.userIsLogIn = true;
-        this.userData = userData;
+    // if(tokenUser){
+    //   console.log("USERS TOKEN", tokenUser);
+    //   const userData = extractJWT(tokenUser.token);
+    //   // const expTime = userData.exp*1000;
+    //   // const currentDateTime = new Date();
+    //   // const differenceTime = expTime - currentDateTime;
+    //   // console.log(`DIFFERENCE TIME: ${differenceTime}`)
+    //   const accessTokenIsValid = isValidExpireTimeFromJWT(userData)
+    //   if(accessTokenIsValid){
+    //     this.userIsLogIn = true;
+    //     this.userData = userData;
 
-      }
-      else{
-        TokenService.removeUser();
-        TokenService.removeToken();
+    //   }
+    //   else{
+    //     TokenService.removeUser();
+    //     TokenService.removeToken();
 
-      }
+    //   }
 
 
-    }
+    // }
     console.log("END CREATED")
     const user = TokenService.getUser();
     this.$store.commit('auth/SET_DATA_LOGIN', user);
