@@ -89,7 +89,7 @@
             nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
             aliquid ex ea commodi consequatur?
           </p>
-          <n-space justify="end"> </n-space>
+          <!-- <n-space justify="end"> </n-space> -->
         </div>
 
         <div class="preview-container">
@@ -101,31 +101,30 @@
           <n-button class="preview-btn" @click="onClickToPlayGame"
             >Играть</n-button
           >
-
-          <n-modal
-            v-model:show="isPlayGame"
-            v-if="isPlayGame"
-            :mask-closable="false"
-          >
-            <n-card title="Симулятор It">
-              <template #header-extra>
-                <n-button
-                  icon
-                  quaternary
-                  circle
-                  color="red"
-                  text
-                  @click="onClickCloseGame"
-                >
-                  <n-icon size="48">
-                    <icon-close />
-                  </n-icon>
-                </n-button>
-              </template>
-              <UnityGame />
-            </n-card>
-          </n-modal>
         </div>
+        <n-modal
+          v-model:show="isPlayGame"
+          v-if="isPlayGame"
+          :mask-closable="false"
+        >
+          <n-card title="Симулятор It">
+            <template #header-extra>
+              <n-button
+                icon
+                quaternary
+                circle
+                color="red"
+                text
+                @click="onClickCloseGame"
+              >
+                <n-icon size="48">
+                  <icon-close />
+                </n-icon>
+              </n-button>
+            </template>
+            <UnityGame />
+          </n-card>
+        </n-modal>
       </div>
       <router-view> </router-view>
     </div>
