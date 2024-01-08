@@ -15,6 +15,11 @@
 @import 'common/layout';
 @import 'common/icon';
 
+@font-face {
+  font-family: 'LiberationSans';
+  src: url('fonts/LiberationSans-Regular.ttf') format('truetype');
+}
+
 body {
   color: $color-text;
 }
