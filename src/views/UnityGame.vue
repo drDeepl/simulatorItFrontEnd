@@ -5,8 +5,9 @@ import {ref, defineProps} from 'vue';
 
 const props = defineProps(['onClickCloseGame']);
 const isRender = ref(true);
-const isGameLoad = ref(true);
+const isGameLoading = ref(true);
 const progress = ref(0);
+const stepLoad = ref(0);
 const unityContext = new UnityWebgl({
   loaderUrl: 'unity/build/simulator_it_build.loader.js',
   dataUrl: 'unity/build/simulator_it_build.data',
@@ -22,7 +23,11 @@ unityContext.on('progress', (number) => {
   progress.value = Math.round(number * 100);
   console.log(`progress ${progress.value}`);
   if (number == 1) {
-    isGameLoad.value = false;
+    stepLoad.value += 1;
+    if (stepLoad.value == 2) {
+      isGameLoading.value = false;
+      console.warn(stepLoad.value);
+    }
   }
 });
 const onClickShareWindow = () => {
@@ -33,7 +38,7 @@ const onClickShareWindow = () => {
 <template>
   <div>
     <n-space vertical>
-      <!-- :style="isGameLoad ? 'width: 30vw' : 'width: 100%'" -->
+      <!-- :style="isGameLoading ? 'width: 30vw' : 'width: 100%'" -->
       <n-card title=" ">
         <template #header-extra>
           <n-button
@@ -44,6 +49,11 @@ const onClickShareWindow = () => {
             text
             @click="props.onClickCloseGame"
           >
+            <n-steps v-if="isGameLoading" :current="stepLoad + 1">
+              <n-step title="Загружаю файлы игры.."></n-step>
+              <n-step title="Отрисовываю интерфейс.."></n-step>
+              <n-step title="Вперёд!"></n-step>
+            </n-steps>
             <n-icon size="48">
               <icon-close />
             </n-icon>
@@ -51,22 +61,23 @@ const onClickShareWindow = () => {
         </template>
         <n-space justify="center" align="center" vertical>
           <!-- <n-spin v-if="isRender"></n-spin> -->
+
           <n-progress
             style="width: 40em"
-            v-if="isGameLoad"
+            v-if="stepLoad == 0"
             type="line"
             :percentage="progress"
             :height="24"
             :indicator-placement="'inside'"
             processing
           />
+
           <n-spin
-            :show="!isGameLoad"
+            :show="!isGameLoading"
             @click="onClickShareWindow"
             :rotate="false"
-            color="red"
           >
-            <div class="unity-game-container" v-show="!isGameLoad">
+            <div class="unity-game-container" v-show="!isGameLoading">
               <UnityVue style="width: 90vw" :unity="unityContext" />
             </div>
             <template #icon>

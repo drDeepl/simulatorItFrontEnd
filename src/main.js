@@ -47,9 +47,13 @@ import {
   NSkeleton,
   NSpace,
   NSpin,
+  NSteps,
+  NStep,
 } from 'naive-ui';
 const app = createApp(App);
 
+app.component('n-steps', NSteps);
+app.component('n-step', NStep);
 app.component('n-message-provider', NMessageProvider);
 app.component('n-back-top', NBackTop);
 app.component('n-select', NSelect);
