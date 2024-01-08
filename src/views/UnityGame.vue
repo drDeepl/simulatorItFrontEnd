@@ -26,6 +26,7 @@ const onClickShareWindow = () => {
   <n-card title=" ">
     <template #header-extra>
       <n-button
+        v-if="!isRender"
         icon
         quaternary
         circle
