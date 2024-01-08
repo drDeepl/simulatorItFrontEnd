@@ -15,6 +15,7 @@ import {
   Person32Regular,
   PlayCircle48Regular,
   Triangle48Regular,
+  ArrowClockwise24Regular,
 } from '@vicons/fluent';
 
 import {IosResize} from '@vicons/ionicons4';
@@ -88,7 +89,7 @@ app.component('icon-add', AddSquareMultiple16Filled);
 app.component('icon-add-plus', Add16Filled);
 app.component('icon-play', PlayCircle48Regular);
 app.component('icon-resize', IosResize);
-
+app.component('icon-arrow-circle', ArrowClockwise24Regular);
 app.component('n-space', NSpace);
 app.component('n-button', NButton);
 app.component('icon-avatar', Person32Regular);

@@ -54,6 +54,7 @@ const onClickShareWindow = () => {
               <n-step title="Отрисовываю интерфейс.."></n-step>
               <n-step title="Вперёд!"></n-step>
             </n-steps>
+
             <n-icon size="48">
               <icon-close />
             </n-icon>
@@ -61,7 +62,6 @@ const onClickShareWindow = () => {
         </template>
         <n-space justify="center" align="center" vertical>
           <!-- <n-spin v-if="isRender"></n-spin> -->
-
           <n-progress
             style="width: 40em"
             v-if="stepLoad == 0"
@@ -72,22 +72,22 @@ const onClickShareWindow = () => {
             processing
           />
 
-          <n-spin
-            :show="!isGameLoading"
-            @click="onClickShareWindow"
-            :rotate="false"
-          >
-            <div class="unity-game-container" v-show="!isGameLoading">
+          <n-spin :show="stepLoad > 0" :rotate="false">
+            <div class="unity-game-container" v-show="stepLoad > 0">
               <UnityVue style="width: 90vw" :unity="unityContext" />
             </div>
             <template #icon>
               <n-icon
+                v-if="!isGameLoading"
                 size="64"
                 color="black"
                 style="cursor: pointer"
                 class="icon-animate-hb"
               >
-                <icon-play />
+                <icon-play @click="onClickShareWindow" />
+              </n-icon>
+              <n-icon v-else size="64" color="#2a8bd8" class="spin-animate">
+                <icon-arrow-circle />
               </n-icon>
             </template>
           </n-spin>

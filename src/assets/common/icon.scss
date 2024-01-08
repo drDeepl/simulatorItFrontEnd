@@ -32,6 +32,19 @@
   }
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-animate {
+  animation: spin 1.5s infinite;
+}
+
 .icon-animate-hb {
   animation: heartBeat 1.5s infinite;
 }
