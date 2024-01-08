@@ -45,7 +45,7 @@
             </n-button> -->
           <!-- </n-space> -->
 
-          <n-drawer v-model:show="isMenuActive">
+          <!-- <n-drawer v-model:show="isMenuActive">
             <n-drawer-content>
               <n-space justify="space-between">
                 <n-button
@@ -66,7 +66,7 @@
                 </n-button>
               </n-space>
             </n-drawer-content>
-          </n-drawer>
+          </n-drawer> -->
         </div>
       </div>
     </n-navbar>
@@ -107,23 +107,10 @@
           v-if="isPlayGame"
           :mask-closable="false"
         >
-          <n-card title="Симулятор It">
-            <template #header-extra>
-              <n-button
-                icon
-                quaternary
-                circle
-                color="red"
-                text
-                @click="onClickCloseGame"
-              >
-                <n-icon size="48">
-                  <icon-close />
-                </n-icon>
-              </n-button>
-            </template>
-            <UnityGame />
-          </n-card>
+          <UnityGame
+            :isActiveModal="isPlayGame"
+            :onClickCloseGame="onClickCloseGame"
+          />
         </n-modal>
       </div>
       <router-view> </router-view>

@@ -16,6 +16,8 @@ import {
   PlayCircle48Regular,
   Triangle48Regular,
 } from '@vicons/fluent';
+
+import {IosResize} from '@vicons/ionicons4';
 import './assets/main.scss';
 
 import FormDialog from '@/components/FormDialog.vue';
@@ -81,6 +83,7 @@ app.component('icon-close', Dismiss28Regular);
 app.component('icon-add', AddSquareMultiple16Filled);
 app.component('icon-add-plus', Add16Filled);
 app.component('icon-play', PlayCircle48Regular);
+app.component('icon-resize', IosResize);
 
 app.component('n-space', NSpace);
 app.component('n-button', NButton);
