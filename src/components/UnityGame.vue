@@ -74,7 +74,7 @@ const onClickShareWindow = () => {
 
           <n-spin :show="stepLoad > 0" :rotate="false">
             <div class="unity-game-container" v-show="stepLoad > 0">
-              <UnityVue style="width: 90vw" :unity="unityContext" />
+              <UnityVue style="width: 50vw" :unity="unityContext" />
             </div>
             <template #icon>
               <n-icon

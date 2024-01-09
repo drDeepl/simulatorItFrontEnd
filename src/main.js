@@ -1,5 +1,4 @@
 import router from '@/router/index';
-import store from '@/store';
 import {createApp} from 'vue';
 import App from './App.vue';
 
@@ -21,7 +20,6 @@ import {
 import {IosResize} from '@vicons/ionicons4';
 import './assets/main.scss';
 
-import FormDialog from '@/components/FormDialog.vue';
 import {
   NAlert,
   NBackTop,
@@ -80,7 +78,6 @@ app.component('n-input', NInput);
 app.component('n-progress', NProgress);
 app.component('n-card', NCard);
 app.component('n-modal', NModal);
-app.component('c-form', FormDialog);
 app.component('n-spin', NSpin);
 app.component('icon-edit', Edit16Regular);
 app.component('icon-info', Info16Regular);
@@ -96,5 +93,5 @@ app.component('icon-avatar', Person32Regular);
 app.component('icon-exit', DoorArrowLeft24Regular);
 
 app.use(router);
-app.use(store);
+
 app.mount('#app');

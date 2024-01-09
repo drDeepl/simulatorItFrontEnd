@@ -1,6 +1,5 @@
 import MainLayout from '@/Layouts/MainLayout.vue';
-import UserProfile from '@/views/UserProfile.vue';
-import UnityGame from '@/views/UnityGame.vue';
+import UnityGame from '@/components/UnityGame.vue';
 import {createRouter, createWebHistory} from 'vue-router';
 
 const router = createRouter({
@@ -11,11 +10,6 @@ const router = createRouter({
       name: 'home',
       component: MainLayout,
       children: [
-        {
-          path: '/profile',
-          name: 'profile',
-          component: UserProfile,
-        },
         {
           path: '/game',
           name: 'game',
