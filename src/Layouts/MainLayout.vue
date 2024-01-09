@@ -25,17 +25,17 @@
       >
         <div class="preview-description">
           <p>
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-            aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est,
-            qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-            sed quia non numquam eius modi tempora incidunt ut labore et dolore
-            magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
-            nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-            aliquid ex ea commodi consequatur?
+            “Симулятор IT профессий” - уникальный виртуальный симулятор, который
+            позволяет вам погрузиться в мир информационных технологий и
+            развивать свои профессиональные навыки в безопасной и интересной
+            среде. Пройдите реалистичные задания в трех основных IT-профессиях:
+            техника, веб-дизайнера и системного администратора, взаимодействуйте
+            с виртуальными коллегами и преподавателями, и получите практическую
+            подготовку в безопасной среде. “Симулятор IT профессий” - это
+            доступная платформа для знакомства с разнообразными IT-профессиями,
+            которая поможет вам определиться с выбором карьеры и развить
+            необходимые навыки. Не упустите возможность стать экспертом в
+            IT-сфере!
           </p>
           <!-- <n-space justify="end"> </n-space> -->
         </div>
@@ -61,7 +61,23 @@
           />
         </n-modal>
       </div>
-      <router-view> </router-view>
+    </div>
+    <div class="marquee-container">
+      <div class="marquee">
+        <span
+          v-for="profLabel in [
+            '⭐',
+            'техник',
+            '⭐',
+            'веб-дизайнер',
+            '⭐',
+            'системный администратор',
+            '⭐',
+          ]"
+          :key="profLabel"
+          >{{ profLabel }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

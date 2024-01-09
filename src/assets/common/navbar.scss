@@ -4,7 +4,6 @@
 
   border-radius: $border-radius !important;
   // margin-top: -0.95em;
-  margin-bottom: 1em;
 }
 
 .navbar-preview-text {
@@ -17,20 +16,8 @@
   justify-content: center;
   min-height: 100%;
   border: 2px solid $color-soft-black;
-  background-color: $color-crema;
+  background-color: $color-white;
 }
-
-// .navbar-menu:after {
-//   content: '';
-//   position: absolute;
-//   background-color: $color-soft-black;
-//   top: 0px;
-//   left: 8px;
-//   right: -22px;
-//   bottom: -11px;
-//   border-radius: $border-radius;
-//   z-index: -1;
-// }
 
 .nav-bar-btn {
   background-color: white !important;

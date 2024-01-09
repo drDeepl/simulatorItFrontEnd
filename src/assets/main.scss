@@ -10,7 +10,6 @@
 @import 'common/mainlayout';
 
 @import 'common/font';
-@import 'common/image';
 @import 'common/container';
 @import 'common/layout';
 @import 'common/icon';
@@ -22,4 +21,5 @@
 
 body {
   color: $color-text;
+  height: 100%;
 }
