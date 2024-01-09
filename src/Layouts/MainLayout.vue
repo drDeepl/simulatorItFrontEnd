@@ -50,15 +50,9 @@
             >Играть</n-button
           >
         </div>
-        <n-modal
-          v-model:show="isPlayGame"
-          v-if="isPlayGame"
-          :mask-closable="false"
-        >
-          <UnityGame
-            :isActiveModal="isPlayGame"
-            :onClickCloseGame="onClickCloseGame"
-          />
+        <!-- v-model:show="isPlayGame"  -->
+        <n-modal :show="isPlayGame" :mask-closable="false">
+          <UnityGame :onClickCloseGame="onClickCloseGame" />
         </n-modal>
       </div>
     </div>
