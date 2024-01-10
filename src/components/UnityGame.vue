@@ -33,6 +33,11 @@ unityContext.on('progress', (number) => {
 const onClickShareWindow = () => {
   unityContext.setFullscreen(true);
 };
+
+const onClickCloseGame = () => {
+  unityContext.unload();
+  props.onClickCloseGame();
+};
 </script>
 
 <template>
@@ -47,7 +52,7 @@ const onClickShareWindow = () => {
             circle
             color="red"
             text
-            @click="props.onClickCloseGame"
+            @click="onClickCloseGame"
           >
             <n-steps v-if="isGameLoading" :current="stepLoad + 1">
               <n-step title="Загружаю файлы игры.."></n-step>
@@ -72,24 +77,28 @@ const onClickShareWindow = () => {
             processing
           />
 
-          <n-spin :show="stepLoad > 0" :rotate="false">
-            <div class="unity-game-container" v-show="stepLoad > 0">
-              <UnityVue style="width: 50vw" :unity="unityContext" />
-            </div>
-            <template #icon>
+          <n-spin :show="stepLoad > 0" :rotate="false" size="64">
+            <template #description>
               <n-icon
                 v-if="!isGameLoading"
-                size="64"
                 color="black"
+                size="64"
                 style="cursor: pointer"
                 class="icon-animate-hb"
               >
                 <icon-play @click="onClickShareWindow" />
               </n-icon>
-              <n-icon v-else size="64" color="#2a8bd8" class="spin-animate">
-                <icon-arrow-circle />
-              </n-icon>
+              <n-progress v-else type="circle" :percentage="progress">
+              </n-progress>
             </template>
+
+            <div class="unity-game-container" v-show="stepLoad > 0">
+              <UnityVue
+                :show="!isGameLoading"
+                style="width: 50vw"
+                :unity="unityContext"
+              />
+            </div>
           </n-spin>
         </n-space>
       </n-card>
